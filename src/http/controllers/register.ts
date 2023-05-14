@@ -1,4 +1,5 @@
 import { PrismaOngsRepository } from '@/repositories/prisma/prisma-ongs-repository'
+import { OngAlreadyExistsError } from '@/use-cases/errors/ong-already-exist-error'
 import { RegisterUseCase } from '@/use-cases/register'
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
@@ -32,7 +33,8 @@ export async function register (req: FastifyRequest, reply: FastifyReply) {
             district
         })
     } catch (err) {
-        return reply.code(409).send()
+        if (err instanceof OngAlreadyExistsError) return reply.status(409).send({message: err.message})
+        return reply.code(500).send()
     }
 
     return reply.status(201).send()

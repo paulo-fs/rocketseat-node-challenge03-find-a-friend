@@ -1,5 +1,6 @@
 import { OngsRepository } from '@/repositories/ongs-repository'
 import { hash } from 'bcryptjs'
+import { OngAlreadyExistsError } from './errors/ong-already-exist-error'
 
 interface RegisterUseCaseRequest {
     name: string
@@ -19,7 +20,7 @@ export class RegisterUseCase {
         name, email, password, whatsapp, city, district, cep, street
     }: RegisterUseCaseRequest) {
         const userWithSameEmail = await this.ongsRepository.findByEmail(email)
-        if (userWithSameEmail) throw new Error('E-mail already exists.')
+        if (userWithSameEmail) throw new OngAlreadyExistsError()
 
         const password_hash = await hash(password, 6)
 
