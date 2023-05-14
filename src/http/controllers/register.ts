@@ -34,7 +34,7 @@ export async function register (req: FastifyRequest, reply: FastifyReply) {
         })
     } catch (err) {
         if (err instanceof OngAlreadyExistsError) return reply.status(409).send({message: err.message})
-        return reply.code(500).send()
+        throw err
     }
 
     return reply.status(201).send()
