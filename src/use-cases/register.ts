@@ -1,7 +1,7 @@
-import { prisma } from '@/lib/prisma'
+import { OngsRepository } from '@/repositories/ongs-repository'
 import { hash } from 'bcryptjs'
 
-interface RegisterParams {
+interface RegisterUseCaseRequest {
     name: string
     email: string
     password: string
@@ -12,15 +12,20 @@ interface RegisterParams {
     district?: string
 }
 
-export async function registerUseCase({
-    name, email, password, whatsapp, city, district, cep, street
-}: RegisterParams) {
-    const userWithSameEmail = await prisma.oNG.findUnique({ where: { email }})
-    if (userWithSameEmail) throw new Error('E-mail already exists.')
+export class RegisterUseCase {
+    constructor(private ongsRepository: OngsRepository) {}
 
-    const password_hash = await hash(password, 6)
+    async execute({
+        name, email, password, whatsapp, city, district, cep, street
+    }: RegisterUseCaseRequest) {
+        const userWithSameEmail = await this.ongsRepository.findByEmail(email)
+        if (userWithSameEmail) throw new Error('E-mail already exists.')
 
-    await prisma.oNG.create({
-        data: { name, email, password_hash, whatsapp, city, cep, street, district }
-    })
+        const password_hash = await hash(password, 6)
+
+        await this.ongsRepository.create({
+            name, email, password_hash, whatsapp, city, district, cep, street
+        })
+    }
 }
+
