@@ -2,43 +2,43 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 model Pet {
-  id         String    @id @default(uuid())
-  name       String
-  age        Int
-  race       String
-  detais     String
-  city       String
-  created_at DateTime  @default(now())
-  adopted_at DateTime?
+    id         String    @id @default(uuid())
+    name       String
+    age        Int
+    race       String
+    detais     String
+    city       String
+    created_at DateTime  @default(now())
+    adopted_at DateTime?
 
-  ong    ONG    @relation(fields: [ong_id], references: [id])
-  ong_id String
+    ong    ONG    @relation(fields: [ong_id], references: [id])
+    ong_id String
 
-  @@map("pets")
+    @@map("pets")
 }
 
 model ONG {
-  id            String   @id @default(uuid())
-  name          String
-  email         String   @unique
-  password_hash String
-  whatsapp      String
-  city          String
-  cep           String
-  street        String?
-  district      String?
-  created_at    DateTime @default(now())
+    id            String   @id @default(uuid())
+    name          String
+    email         String   @unique
+    password_hash String
+    whatsapp      String
+    city          String
+    cep           String
+    street        String?
+    district      String?
+    created_at    DateTime @default(now())
 
-  pets Pet[]
+    pets Pet[]
 
-  @@map("ongs")
+    @@map("ongs")
 }
