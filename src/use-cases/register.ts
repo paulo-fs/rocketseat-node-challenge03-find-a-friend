@@ -1,6 +1,7 @@
 import { OngsRepository } from '@/repositories/ongs-repository'
 import { hash } from 'bcryptjs'
 import { OngAlreadyExistsError } from './errors/ong-already-exist-error'
+import { ONG } from '@prisma/client'
 
 interface RegisterUseCaseRequest {
     name: string
@@ -13,20 +14,26 @@ interface RegisterUseCaseRequest {
     district?: string
 }
 
+interface RegisterUseCaseResponse {
+    ong: ONG
+}
+
 export class RegisterUseCase {
     constructor(private ongsRepository: OngsRepository) {}
 
     async execute({
         name, email, password, whatsapp, city, district, cep, street
-    }: RegisterUseCaseRequest) {
+    }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
         const userWithSameEmail = await this.ongsRepository.findByEmail(email)
         if (userWithSameEmail) throw new OngAlreadyExistsError()
 
         const password_hash = await hash(password, 6)
 
-        await this.ongsRepository.create({
+        const ong = await this.ongsRepository.create({
             name, email, password_hash, whatsapp, city, district, cep, street
         })
+
+        return { ong }
     }
 }
 
