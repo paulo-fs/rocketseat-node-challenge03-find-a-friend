@@ -1,6 +1,5 @@
-import { PrismaOngsRepository } from '@/repositories/prisma/prisma-ongs-repository'
 import { OngAlreadyExistsError } from '@/use-cases/errors/ong-already-exist-error'
-import { RegisterUseCase } from '@/use-cases/register'
+import { makeRegisterUseCase } from '@/use-cases/factories/make-register-use-case'
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
 
@@ -19,8 +18,7 @@ export async function register (req: FastifyRequest, reply: FastifyReply) {
     const { name, email, password, whatsapp, city, cep, street, district } = registerBodySchema.parse(req.body)
 
     try {
-        const ongsRepository = new PrismaOngsRepository()
-        const registerUseCase = new RegisterUseCase(ongsRepository)
+        const registerUseCase = makeRegisterUseCase()
 
         await registerUseCase.execute({
             name,
