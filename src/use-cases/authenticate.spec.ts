@@ -1,5 +1,5 @@
 import { expect, describe, it, beforeEach } from 'vitest'
-import { compare, hash } from 'bcryptjs'
+import { hash } from 'bcryptjs'
 import { InMemoryOngsRepository } from '@/repositories/in-memory/in-memory-ongs-repository'
 import { AuthenticateUseCase } from './authenticate'
 import { InvalidCredentialsError } from './errors/invalid-credentials-error'

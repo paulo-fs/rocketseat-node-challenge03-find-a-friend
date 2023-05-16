@@ -1,15 +1,20 @@
-import { expect, describe, it } from 'vitest'
+import { expect, describe, it, beforeEach } from 'vitest'
 import { RegisterUseCase } from './register'
 import { compare } from 'bcryptjs'
 import { InMemoryOngsRepository } from '@/repositories/in-memory/in-memory-ongs-repository'
 import { OngAlreadyExistsError } from './errors/ong-already-exist-error'
 
-describe('register use case', () => {
-    it('should hash ong password upon registration', async () => {
-        const prismaOngsRepository = new InMemoryOngsRepository()
-        const registerUseCase = new RegisterUseCase(prismaOngsRepository)
+let repository: InMemoryOngsRepository
+let sut: RegisterUseCase
 
-        const { ong } = await registerUseCase.execute({
+describe('register use case', () => {
+    beforeEach(() => {
+        repository = new InMemoryOngsRepository()
+        sut = new RegisterUseCase(repository)
+    })
+
+    it('should hash ong password upon registration', async () => {
+        const { ong } = await sut.execute({
             name: 'ong test',
             email: 'emailteste9@teste.com',
             password: '123456',
@@ -27,12 +32,9 @@ describe('register use case', () => {
     })
 
     it('should not be able to register with the same email twice', async () => {
-        const prismaOngsRepository = new InMemoryOngsRepository()
-        const registerUseCase = new RegisterUseCase(prismaOngsRepository)
-
         const email = 'teste@mail.com'
 
-        await registerUseCase.execute({
+        await sut.execute({
             name: 'ong test',
             email,
             password: '123456',
@@ -42,7 +44,7 @@ describe('register use case', () => {
         })
 
         await expect(() =>
-            registerUseCase.execute({
+            sut.execute({
                 name: 'ong test2',
                 email,
                 password: '123456',
@@ -54,10 +56,7 @@ describe('register use case', () => {
     })
 
     it('should be able to register', async () => {
-        const prismaOngsRepository = new InMemoryOngsRepository()
-        const registerUseCase = new RegisterUseCase(prismaOngsRepository)
-
-        const { ong } = await registerUseCase.execute({
+        const { ong } = await sut.execute({
             name: 'ong test',
             email: 'emailteste9@teste.com',
             password: '123456',
