@@ -21,4 +21,9 @@ export class InMemoryPetsRepository implements PetsRepository {
         this.items.push(pet)
         return pet
     }
+
+    async findByCity(city: string): Promise<Pet[]> {
+        const pets = this.items.filter(item => item.city === city && item.adopted_at === null)
+        return pets
+    }
 }
