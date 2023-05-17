@@ -15,10 +15,10 @@ Find a Friend api.
 
 - [] Para listar os pets, obrigatoriamente precisamos informar a cidade
 - [x] Uma ONG precisa ter um endereço e um número Whatsapp
-- [] Um pet deve estar ligado a uma ONG
+- [x] Um pet deve estar ligado a uma ONG
 - [] O usuário que quer adotar, entrará em contato com a ONG via Whatsapp
 - [] Todos os filtros, além da cidade, são opcionais
-- [] Para uma ONG acessar a aplicação como admin, ela precisa estar logada
+- [x] Para uma ONG acessar a aplicação como admin, ela precisa estar logada
 
 ## RNFs (Requisitos não funcionais)
 
