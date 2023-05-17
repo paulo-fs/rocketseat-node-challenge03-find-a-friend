@@ -1,6 +1,7 @@
 import { OngsRepository } from '@/repositories/ongs-repository'
 import { PetsRepository } from '@/repositories/pets-repository'
 import { Pet } from '@prisma/client'
+import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
 interface RegisterPetUseCaseRequest {
     name: string
@@ -25,7 +26,7 @@ export class RegisterPetUseCase {
         name, age, race, detais, city, ong_email
     }: RegisterPetUseCaseRequest): Promise<RegisterPetUseCaseResponse> {
         const ong = await this.ongsRepository.findByEmail(ong_email)
-        if (!ong) throw new Error()
+        if (!ong) throw new ResourceNotFoundError()
 
         const pet = await this.petsRepository.create({
             name, age, race, detais, city, ong_id: ong.id
