@@ -24,7 +24,7 @@ describe('List Pets use case', () => {
         const city = 'Pouso Alegre'
         const ongId = randomUUID()
 
-        ongsRepository.create({
+        await ongsRepository.create({
             id: ongId,
             name: 'ong test',
             email: ongEmail,
@@ -34,7 +34,7 @@ describe('List Pets use case', () => {
             cep: '37550000'
         })
 
-        petsRepository.create({
+        await petsRepository.create({
             name: 'doguinho',
             age: 2,
             city: city,
