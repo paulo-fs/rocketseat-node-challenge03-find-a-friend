@@ -6,16 +6,17 @@ import { InMemoryOngsRepository } from '@/repositories/in-memory/in-memory-ongs-
 import { hash } from 'bcryptjs'
 import { randomUUID } from 'crypto'
 import { CityNotInformedError } from './errors/city-not-informed-error'
+import { PetsRepository } from '@/repositories/pets-repository'
 
 let ongsRepository: OngsRepository
-let repository: InMemoryPetsRepository
+let petsRepository: PetsRepository
 let sut: ListPetUseCase
 
 describe('List Pets use case', () => {
     beforeEach(() => {
         ongsRepository = new InMemoryOngsRepository()
-        repository = new InMemoryPetsRepository()
-        sut = new ListPetUseCase(repository)
+        petsRepository = new InMemoryPetsRepository()
+        sut = new ListPetUseCase(petsRepository)
     })
 
     it('should be able to list pets by city', async () => {
@@ -33,7 +34,7 @@ describe('List Pets use case', () => {
             cep: '37550000'
         })
 
-        repository.create({
+        petsRepository.create({
             name: 'doguinho',
             age: 2,
             city: city,
