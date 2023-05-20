@@ -7,8 +7,7 @@ interface RegisterPetUseCaseRequest {
     name: string
     age: number
     race: string
-    detais: string
-    city: string
+    details: string
     ong_email: string
 }
 
@@ -23,13 +22,13 @@ export class RegisterPetUseCase {
     ) {}
 
     async execute({
-        name, age, race, detais, city, ong_email
+        name, age, race, details, ong_email
     }: RegisterPetUseCaseRequest): Promise<RegisterPetUseCaseResponse> {
         const ong = await this.ongsRepository.findByEmail(ong_email)
         if (!ong) throw new ResourceNotFoundError()
 
         const pet = await this.petsRepository.create({
-            name, age, race, detais, city, ong_id: ong.id
+            name, age, race, details, ong_id: ong.id
         })
 
         return { pet }
