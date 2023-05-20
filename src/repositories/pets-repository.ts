@@ -1,7 +1,7 @@
 import { Pet, Prisma } from '@prisma/client'
 
 export interface FilterPetsRequest {
-    city: string
+    ongId: string
     age?: number
     race?: string
     details?: string
@@ -9,8 +9,8 @@ export interface FilterPetsRequest {
 
 export interface PetsRepository {
     create(data: Prisma.PetUncheckedCreateInput): Promise<Pet>
-    findByCity(city: string): Promise<Pet[]>
+    findByCity(ongId: string): Promise<Pet[]>
     filterPets({
-        city, age, race, details
+        ongId, age, race, details
     }: FilterPetsRequest): Promise<Pet[]>
 }

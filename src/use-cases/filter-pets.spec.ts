@@ -16,17 +16,15 @@ describe('Filter Pets use case', () => {
     beforeEach(() => {
         ongsRepository = new InMemoryOngsRepository()
         petsRepository = new InMemoryPetsRepository()
-        sut = new FilterPetsUseCase(petsRepository)
+        sut = new FilterPetsUseCase(petsRepository, ongsRepository)
     })
 
     it('should be able to filter pets by race', async () => {
         const ongEmail = 'testOng@mail.com'
         const city = 'Pouso Alegre'
         const race = 'dalmata'
-        const ongId = randomUUID()
 
-        await ongsRepository.create({
-            id: ongId,
+        const { id } = await ongsRepository.create({
             name: 'ong test',
             email: ongEmail,
             password_hash: await hash('123456', 6),
@@ -38,19 +36,17 @@ describe('Filter Pets use case', () => {
         await petsRepository.create({
             name: 'doguinho',
             age: 2,
-            city: city,
-            detais: 'detalhes...',
+            details: 'detalhes...',
             race: race,
-            ong_id: ongId
+            ong_id: id
         })
 
         await petsRepository.create({
             name: 'doguinho',
             age: 2,
-            city: city,
-            detais: 'detalhes...',
+            details: 'detalhes...',
             race: 'vira lata',
-            ong_id: ongId
+            ong_id: id
         })
 
         const { pets } = await sut.execute({ city, race })
@@ -62,10 +58,8 @@ describe('Filter Pets use case', () => {
         const ongEmail = 'testOng@mail.com'
         const city = 'Pouso Alegre'
         const race = 'dalmata'
-        const ongId = randomUUID()
 
-        await ongsRepository.create({
-            id: ongId,
+        const { id } = await ongsRepository.create({
             name: 'ong test',
             email: ongEmail,
             password_hash: await hash('123456', 6),
@@ -77,28 +71,25 @@ describe('Filter Pets use case', () => {
         await petsRepository.create({
             name: 'doguinho',
             age: 2,
-            city: city,
-            detais: 'detalhes...',
+            details: 'detalhes...',
             race: race,
-            ong_id: ongId
+            ong_id: id
         })
 
         await petsRepository.create({
             name: 'doguinho',
             age: 1,
-            city: city,
-            detais: 'detalhes...',
+            details: 'detalhes...',
             race: race,
-            ong_id: ongId
+            ong_id: id
         })
 
         await petsRepository.create({
             name: 'doguinho',
             age: 2,
-            city: city,
-            detais: 'detalhes...',
+            details: 'detalhes...',
             race: 'vira lata',
-            ong_id: ongId
+            ong_id: id
         })
 
         const { pets } = await sut.execute({ city, race, age: 1 })
@@ -112,10 +103,8 @@ describe('Filter Pets use case', () => {
         const city = 'Pouso Alegre'
         const race = 'dalmata'
         const detail = 'cute'
-        const ongId = randomUUID()
 
-        await ongsRepository.create({
-            id: ongId,
+        const { id } = await ongsRepository.create({
             name: 'ong test',
             email: ongEmail,
             password_hash: await hash('123456', 6),
@@ -127,49 +116,44 @@ describe('Filter Pets use case', () => {
         await petsRepository.create({
             name: 'doguinho',
             age: 2,
-            city: city,
-            detais: 'detalhes...',
+            details: 'detalhes...',
             race: race,
-            ong_id: ongId
+            ong_id: id
         })
 
         await petsRepository.create({
             name: 'doguinho',
             age: 1,
-            city: city,
-            detais: detail,
+            details: detail,
             race: race,
-            ong_id: ongId
+            ong_id: id
         })
 
         await petsRepository.create({
             name: 'doguinho',
             age: 2,
-            city: city,
-            detais: 'detalhes...',
+            details: 'detalhes...',
             race: 'vira lata',
-            ong_id: ongId
+            ong_id: id
         })
 
         await petsRepository.create({
             name: 'doguinho',
             age: 1,
-            city: city,
-            detais: 'detalhes...',
+            details: 'detalhes...',
             race: race,
-            ong_id: ongId
+            ong_id: id
         })
 
         const { pets } = await sut.execute({ city, age: 1, details: detail })
 
         expect(pets[0]).toHaveProperty( 'race', 'dalmata')
         expect(pets[0]).toHaveProperty( 'age', 1)
-        expect(pets[0]).toHaveProperty( 'detais', detail)
+        expect(pets[0]).toHaveProperty( 'details', detail)
     })
 
     it('should not be able to filter pets without inform the city', async () => {
-        await ongsRepository.create({
-            id: 'ong01',
+        const { id } = await ongsRepository.create({
             name: 'ong test',
             email: 'ong@mail.com',
             password_hash: await hash('123456', 6),
@@ -181,10 +165,9 @@ describe('Filter Pets use case', () => {
         await petsRepository.create({
             name: 'doguinho',
             age: 2,
-            city: 'Pouso Alegre',
-            detais: 'detalhes...',
+            details: 'detalhes...',
             race: 'dalmata',
-            ong_id: 'ong01'
+            ong_id: id
         })
 
         await expect(() =>
