@@ -1,5 +1,5 @@
 import { OngsRepository } from '@/repositories/ongs-repository'
-import { ONG } from '@prisma/client'
+import { Ong } from '@prisma/client'
 import { InvalidCredentialsError } from './errors/invalid-credentials-error'
 import { compare } from 'bcryptjs'
 
@@ -10,7 +10,7 @@ interface AuthenticateUseCaseRequest {
 }
 
 interface AuthenticateUseCaseResponse {
-    ong: ONG
+    ong: Ong
 }
 
 export class AuthenticateUseCase {
