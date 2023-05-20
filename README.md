@@ -6,7 +6,7 @@ Find a Friend api.
 
 - [x] Deve ser possível cadastrar um pet
 - [x] Deve ser possível listar todos os pets disponíveis para adoção em minha cidade
-- [] Deve ser possível filtrar pets por suas características
+- [x] Deve ser possível filtrar pets por suas características
 - [x] Deve ser possível visualizar detalhes de um pet para adoção
 - [x] Deve ser possível se cadastrar como uma ONG
 - [x] Deve ser posssível realizar login como uma ONG
@@ -17,7 +17,7 @@ Find a Friend api.
 - [x] Uma ONG precisa ter um endereço e um número Whatsapp
 - [x] Um pet deve estar ligado a uma ONG
 - [] O usuário que quer adotar, entrará em contato com a ONG via Whatsapp
-- [] Todos os filtros, além da cidade, são opcionais
+- [x] Todos os filtros, além da cidade, são opcionais
 - [x] Para uma ONG acessar a aplicação como admin, ela precisa estar logada
 
 ## RNFs (Requisitos não funcionais)
