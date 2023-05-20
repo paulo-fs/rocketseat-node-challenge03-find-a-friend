@@ -21,12 +21,18 @@ export class InMemoryPetsRepository implements PetsRepository {
         return pet
     }
 
+    async findById(id: string) {
+        const pet =  this.items.filter(pet => pet.id === id)[0]
+        return pet ?? null
+    }
+
     async findByCity(ongId: string) {
         return this.items.filter(pet => pet.ong_id === ongId)
     }
 
     async filterPets({ ongId, age, race, details }: FilterPetsRequest): Promise<Pet[]> {
         let pets = this.items.filter(pet => pet.ong_id === ongId)
+        pets = pets.filter(pet => pet.adopted_at === null)
         if(age) pets = pets.filter(pet => pet.age === age)
         if(race) pets = pets.filter(pet => pet.race.toLowerCase() === race.toLowerCase())
         if(details) pets = pets.filter(pet => pet.details.toLowerCase() === details.toLowerCase())
