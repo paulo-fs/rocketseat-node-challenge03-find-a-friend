@@ -6,6 +6,7 @@ import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
 interface ListPetUseCaseRequest {
     city: string
+    page?: number
 }
 
 interface ListPetUseCaseResponse {
@@ -18,12 +19,12 @@ export class ListPetUseCase {
         private ongsRepository: OngsRepository
     ){}
 
-    async execute({ city }: ListPetUseCaseRequest): Promise<ListPetUseCaseResponse> {
+    async execute({ city, page }: ListPetUseCaseRequest): Promise<ListPetUseCaseResponse> {
         if (!city) throw new CityNotInformedError()
 
         const ong = await this.ongsRepository.findByCity(city)
         if (!ong) throw new ResourceNotFoundError()
-        const pets = await this.petsRepository.findByCity(ong.id)
+        const pets = await this.petsRepository.findByCity(ong.id, page)
         return { pets }
     }
 }

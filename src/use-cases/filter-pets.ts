@@ -9,6 +9,7 @@ interface FilterPetsUseCaseRequest {
     age?: number
     race?: string
     details?: string
+    page?: number
 }
 
 interface FilterPetsUseCaseResponse {
@@ -22,14 +23,14 @@ export class FilterPetsUseCase {
     ) {}
 
     async execute({
-        city, age, race, details
+        city, age, race, details, page
     }: FilterPetsUseCaseRequest): Promise<FilterPetsUseCaseResponse> {
         if (!city) throw new CityNotInformedError()
 
         const ong = await this.ongsRepository.findByCity(city)
         if (!ong) throw new ResourceNotFoundError()
 
-        const pets = await this.petsRepository.filterPets({ ongId: ong.id, age, race, details })
+        const pets = await this.petsRepository.filterPets({ ongId: ong.id, age, race, details, page })
         return { pets }
     }
 }
