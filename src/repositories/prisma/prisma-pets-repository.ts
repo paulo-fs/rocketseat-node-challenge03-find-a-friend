@@ -1,0 +1,43 @@
+import { Prisma, Pet } from '@prisma/client'
+import { FilterPetsRequest, PetsRepository } from '../pets-repository'
+import { prisma } from '@/lib/prisma'
+
+export class PrismaPetsRepository implements PetsRepository {
+    async create(data: Prisma.PetUncheckedCreateInput): Promise<Pet> {
+        const pet = await prisma.pet.create({ data })
+        return pet
+    }
+    async findById(id: string): Promise<Pet | null> {
+        const pet = await prisma.pet.findUnique({ where: { id}})
+        return pet
+    }
+    async findByCity(ongId: string, page = 1): Promise<Pet[]> {
+        const pets = await prisma.pet.findMany({
+            where: { ong_id: ongId },
+            take: 20,
+            skip: (page - 1) * 20
+        })
+        return pets
+    }
+    async filterPets({ ongId, age, race, details, page = 1 }: FilterPetsRequest): Promise<Pet[]> {
+        const pets = await prisma.pet.findMany({
+            where: {
+                ong_id: ongId,
+                age: {
+                    equals: age
+                },
+                race: {
+                    contains: race,
+                    mode: 'insensitive'
+                },
+                details: {
+                    contains: details,
+                    mode: 'insensitive'
+                }
+            },
+            take: 20,
+            skip: (page - 1) * 20
+        })
+        return pets
+    }
+}
