@@ -1,11 +1,11 @@
-import { Prisma, ONG } from '@prisma/client'
+import { Prisma, Ong } from '@prisma/client'
 import { OngsRepository } from '../ongs-repository'
 import { randomUUID } from 'crypto'
 
 export class InMemoryOngsRepository implements OngsRepository {
-    public items: ONG[] = []
+    public items: Ong[] = []
 
-    async create(data: Prisma.ONGCreateInput) {
+    async create(data: Prisma.OngCreateInput) {
         const ong = {
             id: randomUUID(),
             name: data.name,
@@ -25,7 +25,12 @@ export class InMemoryOngsRepository implements OngsRepository {
 
     async findByEmail(email: string) {
         const ong = this.items.find(item => item.email === email)
+        if (!ong) return null
+        return ong
+    }
 
+    async findByCity(city: string){
+        const ong = this.items.find(item => item.city.toLowerCase() === city.toLowerCase())
         if (!ong) return null
         return ong
     }

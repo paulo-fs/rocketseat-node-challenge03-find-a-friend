@@ -1,6 +1,7 @@
-import { ONG, Prisma } from '@prisma/client'
+import { Ong, Prisma } from '@prisma/client'
 
 export interface OngsRepository {
-    create(data: Prisma.ONGCreateInput): Promise<ONG>
-    findByEmail(email: string): Promise<ONG | null>
+    create(data: Prisma.OngCreateInput): Promise<Ong>
+    findByEmail(email: string): Promise<Ong | null>
+    findByCity(city: string): Promise<Ong | null>
 }

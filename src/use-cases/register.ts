@@ -1,7 +1,7 @@
 import { OngsRepository } from '@/repositories/ongs-repository'
 import { hash } from 'bcryptjs'
 import { OngAlreadyExistsError } from './errors/ong-already-exist-error'
-import { ONG } from '@prisma/client'
+import { Ong } from '@prisma/client'
 
 interface RegisterUseCaseRequest {
     name: string
@@ -15,7 +15,7 @@ interface RegisterUseCaseRequest {
 }
 
 interface RegisterUseCaseResponse {
-    ong: ONG
+    ong: Ong
 }
 
 export class RegisterUseCase {
