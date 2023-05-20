@@ -15,18 +15,17 @@ model Pet {
     name       String
     age        Int
     race       String
-    detais     String
-    city       String
+    details    String
     created_at DateTime  @default(now())
     adopted_at DateTime?
 
-    ong    ONG    @relation(fields: [ong_id], references: [id])
+    ong    Ong    @relation(fields: [ong_id], references: [id])
     ong_id String
 
     @@map("pets")
 }
 
-model ONG {
+model Ong {
     id            String   @id @default(uuid())
     name          String
     email         String   @unique
