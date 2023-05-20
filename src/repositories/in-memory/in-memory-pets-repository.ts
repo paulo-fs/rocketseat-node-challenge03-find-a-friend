@@ -1,5 +1,5 @@
 import { Prisma, Pet } from '@prisma/client'
-import { PetsRepository } from '../pets-repository'
+import { FilterPetsRequest, PetsRepository } from '../pets-repository'
 import { randomUUID } from 'crypto'
 
 export class InMemoryPetsRepository implements PetsRepository {
@@ -23,7 +23,15 @@ export class InMemoryPetsRepository implements PetsRepository {
     }
 
     async findByCity(city: string): Promise<Pet[]> {
-        const pets = this.items.filter(item => item.city === city && item.adopted_at === null)
+        const pets = this.items.filter(item => item.city.toLowerCase() === city.toLowerCase() && item.adopted_at === null)
         return pets
+    }
+
+    async filterPets({ city, age, race, details }: FilterPetsRequest): Promise<Pet[]> {
+        let result = await this.findByCity(city)
+        if(age) result = result.filter(pet => pet.age === age)
+        if(race) result = result.filter(pet => pet.race.toLowerCase() === race.toLowerCase())
+        if(details) result = result.filter(pet => pet.detais.toLowerCase() === details.toLowerCase())
+        return result
     }
 }
