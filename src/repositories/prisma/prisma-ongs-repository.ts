@@ -11,6 +11,13 @@ export class PrismaOngsRepository implements OngsRepository{
         return ong
     }
 
+    async findById(id: string): Promise<Ong | null> {
+        const ong = await prisma.ong.findUnique({
+            where: { id }
+        })
+        return ong
+    }
+
     async findByCity(city: string): Promise<Ong | null> {
         const ong = await prisma.ong.findFirst({ where: { city }})
         return ong

@@ -23,6 +23,12 @@ export class InMemoryOngsRepository implements OngsRepository {
         return ong
     }
 
+    async findById(id: string): Promise<Ong | null> {
+        const ong = this.items.find(item => item.id === id)
+        if (!ong) return null
+        return ong
+    }
+
     async findByEmail(email: string) {
         const ong = this.items.find(item => item.email === email)
         if (!ong) return null
