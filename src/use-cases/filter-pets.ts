@@ -1,15 +1,14 @@
 import { PetsRepository } from '@/repositories/pets-repository'
 import { Pet } from '@prisma/client'
 import { CityNotInformedError } from './errors/city-not-informed-error'
-import { OngsRepository } from '@/repositories/ongs-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
 interface FilterPetsUseCaseRequest {
     city: string
-    age?: number
+    age?: string
     race?: string
     details?: string
-    page?: number
+    page?: string
 }
 
 interface FilterPetsUseCaseResponse {
@@ -19,7 +18,6 @@ interface FilterPetsUseCaseResponse {
 export class FilterPetsUseCase {
     constructor(
         private petsRepository: PetsRepository,
-        private ongsRepository: OngsRepository
     ) {}
 
     async execute({
@@ -27,10 +25,10 @@ export class FilterPetsUseCase {
     }: FilterPetsUseCaseRequest): Promise<FilterPetsUseCaseResponse> {
         if (!city) throw new CityNotInformedError()
 
-        const ong = await this.ongsRepository.findByCity(city)
-        if (!ong) throw new ResourceNotFoundError()
+        const pets = await this.petsRepository.filterPets({ city, age: Number(age), race, details, page })
 
-        const pets = await this.petsRepository.filterPets({ ongId: ong.id, age, race, details, page })
+        if (pets.length === 0) throw new ResourceNotFoundError()
+
         return { pets }
     }
 }

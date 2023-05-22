@@ -26,17 +26,17 @@ export class InMemoryPetsRepository implements PetsRepository {
         return pet ?? null
     }
 
-    async findByCity(ongId: string, page = 1) {
+    async findByCity(ongId: string, page = '1') {
         return this.items.filter(pet => pet.ong_id === ongId)
-            .slice((page -1) * 20, page * 20)
+            .slice((Number(page) -1) * 20, Number(page) * 20)
     }
 
-    async filterPets({ ongId, age, race, details, page = 1 }: FilterPetsRequest): Promise<Pet[]> {
-        let pets = this.items.filter(pet => pet.ong_id === ongId)
+    async filterPets({ city, age, race, details, page = '1' }: FilterPetsRequest): Promise<Pet[]> {
+        let pets = this.items.filter(pet => pet.ong_id === city)
         pets = pets.filter(pet => pet.adopted_at === null)
         if(age) pets = pets.filter(pet => pet.age === age)
         if(race) pets = pets.filter(pet => pet.race.toLowerCase() === race.toLowerCase())
         if(details) pets = pets.filter(pet => pet.details.toLowerCase() === details.toLowerCase())
-        return pets.slice((page - 1) * 20, page * 20)
+        return pets.slice((Number(page) - 1) * 20, Number(page) * 20)
     }
 }

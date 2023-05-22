@@ -11,18 +11,20 @@ export class PrismaPetsRepository implements PetsRepository {
         const pet = await prisma.pet.findUnique({ where: { id}})
         return pet
     }
-    async findByCity(ongId: string, page = 1): Promise<Pet[]> {
+    async findByCity(ongId: string, page = '1'): Promise<Pet[]> {
         const pets = await prisma.pet.findMany({
             where: { ong_id: ongId },
             take: 20,
-            skip: (page - 1) * 20
+            skip: (Number(page) - 1) * 20
         })
         return pets
     }
-    async filterPets({ ongId, age, race, details, page = 1 }: FilterPetsRequest): Promise<Pet[]> {
+    async filterPets({ city, age, race, details, page = '1' }: FilterPetsRequest): Promise<Pet[]> {
         const pets = await prisma.pet.findMany({
             where: {
-                ong_id: ongId,
+                ong: {
+                    city: city
+                },
                 age: {
                     equals: age
                 },
@@ -33,11 +35,13 @@ export class PrismaPetsRepository implements PetsRepository {
                 details: {
                     contains: details,
                     mode: 'insensitive'
-                }
+                },
+                adopted_at: null
             },
             take: 20,
-            skip: (page - 1) * 20
+            skip: (Number(page) - 1) * 20
         })
+
         return pets
     }
 }
