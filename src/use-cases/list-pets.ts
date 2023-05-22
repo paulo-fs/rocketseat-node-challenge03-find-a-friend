@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import { PetsRepository } from '@/repositories/pets-repository'
 import { Pet } from '@prisma/client'
 import { CityNotInformedError } from './errors/city-not-informed-error'
@@ -6,7 +7,7 @@ import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
 interface ListPetUseCaseRequest {
     city: string
-    page?: number
+    page?: string
 }
 
 interface ListPetUseCaseResponse {
@@ -24,7 +25,14 @@ export class ListPetUseCase {
 
         const ong = await this.ongsRepository.findByCity(city)
         if (!ong) throw new ResourceNotFoundError()
-        const pets = await this.petsRepository.findByCity(ong.id, page)
+
+        const pets: Pet[] = []
+
+        for await (let item of ong) {
+            const response = await this.petsRepository.findByCity(item.id, Number(page))
+            pets.push(...response)
+        }
+
         return { pets }
     }
 }

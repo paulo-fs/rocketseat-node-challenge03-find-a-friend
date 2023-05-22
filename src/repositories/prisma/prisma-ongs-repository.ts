@@ -18,8 +18,9 @@ export class PrismaOngsRepository implements OngsRepository{
         return ong
     }
 
-    async findByCity(city: string): Promise<Ong | null> {
-        const ong = await prisma.ong.findFirst({ where: { city }})
+    async findByCity(city: string){
+        const ong = await prisma.ong.findMany({ where: { city }})
+        if(ong.length === 0) return null
         return ong
     }
 

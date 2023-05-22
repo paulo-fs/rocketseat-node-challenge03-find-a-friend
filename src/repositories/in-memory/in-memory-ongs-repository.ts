@@ -36,7 +36,7 @@ export class InMemoryOngsRepository implements OngsRepository {
     }
 
     async findByCity(city: string){
-        const ong = this.items.find(item => item.city.toLowerCase() === city.toLowerCase())
+        const ong = this.items.filter(item => item.city.toLowerCase() === city.toLowerCase())
         if (!ong) return null
         return ong
     }
