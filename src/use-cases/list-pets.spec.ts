@@ -74,7 +74,7 @@ describe('List Pets use case', () => {
             })
         }
 
-        const { pets } = await sut.execute({ city, page: 2 })
+        const { pets } = await sut.execute({ city, page: '2' })
         expect(pets).toHaveLength(2)
     })
 })
