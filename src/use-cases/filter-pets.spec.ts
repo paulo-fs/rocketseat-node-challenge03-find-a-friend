@@ -15,7 +15,7 @@ describe('Filter Pets use case', () => {
     beforeEach(() => {
         ongsRepository = new InMemoryOngsRepository()
         petsRepository = new InMemoryPetsRepository()
-        sut = new FilterPetsUseCase(petsRepository, ongsRepository)
+        sut = new FilterPetsUseCase(petsRepository)
     })
 
     it('should be able to filter pets by race', async () => {
@@ -91,7 +91,7 @@ describe('Filter Pets use case', () => {
             ong_id: id
         })
 
-        const { pets } = await sut.execute({ city, race, age: 1 })
+        const { pets } = await sut.execute({ city, race, age: '1' })
 
         expect(pets[0]).toHaveProperty( 'race', 'dalmata')
         expect(pets[0]).toHaveProperty( 'age', 1)
@@ -144,7 +144,7 @@ describe('Filter Pets use case', () => {
             ong_id: id
         })
 
-        const { pets } = await sut.execute({ city, age: 1, details: detail })
+        const { pets } = await sut.execute({ city, age: '1', details: detail })
 
         expect(pets[0]).toHaveProperty( 'race', 'dalmata')
         expect(pets[0]).toHaveProperty( 'age', 1)
@@ -205,7 +205,7 @@ describe('Filter Pets use case', () => {
             ong_id: id
         })
 
-        const { pets } = await sut.execute({ city, page: 2})
+        const { pets } = await sut.execute({ city, page: '2' })
         expect(pets).toHaveLength(3)
     })
 })

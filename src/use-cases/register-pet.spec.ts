@@ -33,8 +33,7 @@ describe('Register Pet use case', () => {
         const { pet } = await sut.execute({
             name: 'doguinho',
             age: 2,
-            city: 'Pouso Alegre',
-            detais: 'detalhes...',
+            details: 'detalhes...',
             race: 'vira lata',
             ong_email: ongEmail
         })
@@ -47,8 +46,7 @@ describe('Register Pet use case', () => {
             sut.execute({
                 name: 'doguinho',
                 age: 2,
-                city: 'Pouso Alegre',
-                detais: 'detalhes...',
+                details: 'detalhes...',
                 race: 'vira lata',
                 ong_email: ''
             })

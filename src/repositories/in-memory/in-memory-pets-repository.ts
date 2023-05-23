@@ -31,9 +31,8 @@ export class InMemoryPetsRepository implements PetsRepository {
             .slice((Number(page) -1) * 20, Number(page) * 20)
     }
 
-    async filterPets({ city, age, race, details, page = '1' }: FilterPetsRequest): Promise<Pet[]> {
-        let pets = this.items.filter(pet => pet.ong_id === city)
-        pets = pets.filter(pet => pet.adopted_at === null)
+    async filterPets({ age, race, details, page = '1' }: FilterPetsRequest): Promise<Pet[]> {
+        let pets = this.items.filter(pet => pet.adopted_at === null)
         if(age) pets = pets.filter(pet => pet.age === age)
         if(race) pets = pets.filter(pet => pet.race.toLowerCase() === race.toLowerCase())
         if(details) pets = pets.filter(pet => pet.details.toLowerCase() === details.toLowerCase())
