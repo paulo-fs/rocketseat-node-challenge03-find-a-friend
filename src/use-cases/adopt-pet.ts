@@ -1,5 +1,4 @@
 import { PetsRepository } from '@/repositories/pets-repository'
-import { Pet } from '@prisma/client'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
 import { PetAlreadyAdopted } from './errors/pet-already-adopted-error'
 
