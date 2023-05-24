@@ -38,4 +38,9 @@ export class InMemoryPetsRepository implements PetsRepository {
         if(details) pets = pets.filter(pet => pet.details.toLowerCase() === details.toLowerCase())
         return pets.slice((Number(page) - 1) * 20, Number(page) * 20)
     }
+
+    async adoptAPet(id: string): Promise<void> {
+        const pet = this.items.find(pet => pet.id === id)
+        if(pet) pet.adopted_at = new Date()
+    }
 }

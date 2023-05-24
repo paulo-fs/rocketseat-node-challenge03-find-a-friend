@@ -55,4 +55,11 @@ export class PrismaPetsRepository implements PetsRepository {
 
         return pets
     }
+
+    async adoptAPet(id: string) {
+        await prisma.pet.update({
+            where: { id },
+            data: { adopted_at: new Date() }
+        })
+    }
 }

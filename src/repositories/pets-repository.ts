@@ -15,4 +15,5 @@ export interface PetsRepository {
     filterPets({
         city, age, race, details, page
     }: FilterPetsRequest): Promise<Pet[]>
+    adoptAPet(id: string): Promise<void>
 }
