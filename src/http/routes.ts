@@ -5,11 +5,13 @@ import { verifyJWT } from './middlewares/verify-jwt'
 import { ongProfile } from './controllers/ong-profile'
 import { registerPet } from './controllers/register-pet'
 import { filterPets } from './controllers/filter-pets'
+import { petProfile } from './controllers/pet-profile'
 
 export async function appRoutes(app: FastifyInstance) {
     app.post('/ong', register)
     app.post('/session', authenticate)
     app.get('/pet', filterPets)
+    app.get('/pet/:id', petProfile)
 
     // Authenticated
     app.get('/me', { onRequest: [verifyJWT] }, ongProfile)
