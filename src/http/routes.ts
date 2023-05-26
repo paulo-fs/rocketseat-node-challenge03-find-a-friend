@@ -7,13 +7,17 @@ import { registerPet } from './controllers/register-pet'
 import { filterPets } from './controllers/filter-pets'
 import { petProfile } from './controllers/pet-profile'
 import { adoptAPet } from './controllers/adoptAPet'
+import { refresh } from './controllers/refresh'
 
 export async function appRoutes(app: FastifyInstance) {
     app.post('/ong', register)
-    app.post('/session', authenticate)
     app.get('/pet', filterPets)
     app.get('/pet/:id', petProfile)
     app.post('/adopt', adoptAPet)
+
+    // Authentication
+    app.post('/session', authenticate)
+    app.patch('/token/refresh', refresh)
 
     // Authenticated
     app.get('/me', { onRequest: [verifyJWT] }, ongProfile)
