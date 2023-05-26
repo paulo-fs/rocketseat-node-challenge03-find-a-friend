@@ -15,12 +15,18 @@ export async function authenticate(req: FastifyRequest, reply: FastifyReply) {
         const authenticateUseCase = makeAuthenticateUseCase()
         const { ong } = await authenticateUseCase.execute({ email, password })
 
-        const token = await reply.jwtSign({}, {
-            sign: { sub: ong.id }
-        })
+        const token = await reply.jwtSign(
+            {
+                role: ong.role
+            },
+            {
+                sign: { sub: ong.id }
+            })
 
         const refreshToken = await reply.jwtSign(
-            {},
+            {
+                role: ong.role
+            },
             {
                 sign: {
                     sub: ong.id,

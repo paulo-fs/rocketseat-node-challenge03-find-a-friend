@@ -19,7 +19,8 @@ describe('Adopt a pet e2e', () => {
             whatsapp: '35999783000',
             city: 'pouso alegre',
             cep: '37550000',
-            street: 'teste'
+            street: 'teste',
+            role: 'ADMIN'
         })
 
         const login = await request(app.server).post('/session').send({
@@ -41,6 +42,7 @@ describe('Adopt a pet e2e', () => {
             .send({
                 id: newPet.body.id
             })
+            .set('Authorization', `Bearer ${login.body.token}`)
 
         expect(response.status).toBe(201)
         expect(response.body.message).toEqual('Pet adopted succesfully.')

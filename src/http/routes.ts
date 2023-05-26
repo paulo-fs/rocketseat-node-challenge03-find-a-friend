@@ -8,12 +8,14 @@ import { filterPets } from './controllers/filter-pets'
 import { petProfile } from './controllers/pet-profile'
 import { adoptAPet } from './controllers/adoptAPet'
 import { refresh } from './controllers/refresh'
+import { verifyUserRole } from './middlewares/verify-user-role'
 
 export async function appRoutes(app: FastifyInstance) {
     app.post('/ong', register)
     app.get('/pet', filterPets)
     app.get('/pet/:id', petProfile)
-    app.post('/adopt', adoptAPet)
+
+    app.post('/adopt', { onRequest: [verifyJWT, verifyUserRole('ADMIN')]}, adoptAPet)
 
     // Authentication
     app.post('/session', authenticate)
