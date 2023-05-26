@@ -25,11 +25,17 @@ model Pet {
     @@map("pets")
 }
 
+enum Role {
+    ADMIN
+    MEMBER
+}
+
 model Ong {
     id            String   @id @default(uuid())
     name          String
     email         String   @unique
     password_hash String
+    role          Role     @default(MEMBER)
     whatsapp      String
     city          String
     cep           String
